@@ -1,0 +1,74 @@
+%YAML 1.2
+
+---
+
+name: A-BNF
+file_extensions:
+  - abnf
+scope: source.abnf
+
+contexts:
+  special:
+    - match: '"'
+      scope: punctuation.definition.numeric.abnf
+      push: string
+
+    - match: '%'
+      scope: punctuation.definition.numeric.abnf
+      push: charset
+
+    - match: ';'
+      scope: punctuation.determinator.abnf
+      push: comment
+
+    - match: '='
+      scope: keyword.operator.assignment.abnf
+
+    - match: '[\/\(\)\[\]\{\}\*]'
+      scope: keyword.operator.abnf
+
+  main:
+    - include: special
+
+    - match: '[0-9]*'
+      scope: constant.numeric.abnf
+
+  string:
+    - meta_content_scope: string.abnf
+
+    - match: '"'
+      scope: punctuation.definition.numeric.abnf
+      pop: true
+
+  charset:
+    - match: '[bdx]'
+      scope: storage.type.abnf
+      push: number
+
+    - match: '\.'
+      scope: punctuation.separator.abnf
+
+    - include: special
+      pop: true
+
+    - match: '[^bdx]'
+      pop: true
+
+  number:
+    - match: '[0-9a-fA-F]'
+      scope: constant.character.abnf
+
+    - match: '-'
+      scope: punctuation.separator.abnf
+
+    - include: special
+      pop: true
+
+    - match: '[^0-9a-fA-F]'
+      pop: true
+
+  comment:
+    - meta_content_scope: comment.abnf
+
+    - match: '\n'
+      pop: true
