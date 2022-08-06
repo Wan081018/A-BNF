@@ -10,3 +10,5 @@ You need to follow the steps below:
 
 Then, open Sublime Text and choose `A-BNF`.  
 Now, you can write your own A-BNFs.  
+
+![example](./img1.png)  
